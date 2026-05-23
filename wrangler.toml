@@ -5,7 +5,7 @@ pages_build_output_dir = ".vercel/output/static"
 
 # 默认 D1 数据库配置（用于命令行操作）
 [[d1_databases]]
-binding = "DB"
+binding = "D1_DATABASE"
 database_name = "katelyatv-db"
 database_id = "b548262f-efb9-49bb-b71e-fcd4bc8aaf8e"
 

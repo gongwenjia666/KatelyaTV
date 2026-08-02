@@ -1,68 +1,40 @@
 name = "katelyatv"
-compatibility_date = "2024-09-01"
-compatibility_flags = ["nodejs_compat"]
+compatibility_date = "2025-12-01"
+compatibility_flags = ["nodejs_compat", "streams_enable_constructors"]
 pages_build_output_dir = ".vercel/output/static"
 
-# 默认 D1 数据库配置（用于命令行操作）
+# 【修正】D1 数据库只能全局声明，环境区分通过变量控制，不能嵌套[[数组]]
 [[d1_databases]]
 binding = "DB"
 database_name = "katelyatv-db"
 database_id = "32e52d63-545f-4c13-b819-b2af36436130"
 
-# 生产环境配置
+# 全局通用变量（两个环境共用，消除冗余）
+[env.all.vars]
+NEXT_PUBLIC_STORAGE_TYPE = "d1"
+NEXT_PUBLIC_SITE_NAME = "KatelyaTV"
+NEXT_PUBLIC_SITE_DESCRIPTION = "高性能影视播放平台"
+IMAGE_PROXY_ENABLED = "true"
+CACHE_TTL = "3600"
+RATE_LIMIT_MAX = "100"
+RATE_LIMIT_WINDOW = "60000"
+HEALTH_CHECK_ENABLED = "true"
+HEALTH_CHECK_INTERVAL = "30"
+LOG_LEVEL = "info"
+LOG_FORMAT = "json"
+
+# 生产环境
 [env.production]
 name = "katelyatv"
-
-# 生产环境 D1 数据库配置
-[[env.production.d1_databases]]
-binding = "DB"
-database_name = "katelyatv-db"
-database_id = "32e52d63-545f-4c13-b819-b2af36436130"
-
-# 生产环境变量
 [env.production.vars]
-NEXT_PUBLIC_STORAGE_TYPE = "d1"
-NEXT_PUBLIC_SITE_NAME = "KatelyaTV"
-NEXT_PUBLIC_SITE_DESCRIPTION = "高性能影视播放平台"
 NEXTAUTH_URL = "https://tv.katelya.eu.org"
-# USERNAME = "katelya"
-# AUTH_PASSWORD = "ab1433223cd@"
-IMAGE_PROXY_ENABLED = "true"
-CACHE_TTL = "3600"
-CORS_ORIGIN = "*"
-RATE_LIMIT_MAX = "100"
-RATE_LIMIT_WINDOW = "60000"
-HEALTH_CHECK_ENABLED = "true"
-HEALTH_CHECK_INTERVAL = "30"
-LOG_LEVEL = "info"
-LOG_FORMAT = "json"
 NODE_ENV = "production"
+CORS_ORIGIN = "https://tv.katelya.eu.org" # 修复跨域安全问题
 
-# 预览环境配置
+# 预览环境
 [env.preview]
 name = "katelyatv-preview"
-
-# 预览环境 D1 数据库配置
-[[env.preview.d1_databases]]
-binding = "DB"
-database_name = "katelyatv-db"
-database_id = "32e52d63-545f-4c13-b819-b2af36436130"
-
-# 预览环境变量
 [env.preview.vars]
-NEXT_PUBLIC_STORAGE_TYPE = "d1"
-NEXT_PUBLIC_SITE_NAME = "KatelyaTV"
-NEXT_PUBLIC_SITE_DESCRIPTION = "高性能影视播放平台"
 NEXTAUTH_URL = "https://katelyatv.pages.dev"
-# USERNAME = "katelya"
-# AUTH_PASSWORD = "ab1433223cd@"
-IMAGE_PROXY_ENABLED = "true"
-CACHE_TTL = "3600"
-CORS_ORIGIN = "*"
-RATE_LIMIT_MAX = "100"
-RATE_LIMIT_WINDOW = "60000"
-HEALTH_CHECK_ENABLED = "true"
-HEALTH_CHECK_INTERVAL = "30"
-LOG_LEVEL = "info"
-LOG_FORMAT = "json"
-NODE_ENV = "production"
+NODE_ENV = "preview"
+CORS_ORIGIN = "https://katelyatv.pages.dev"
